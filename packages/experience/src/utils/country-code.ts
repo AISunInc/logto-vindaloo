@@ -7,7 +7,7 @@ export const fallbackCountryCode = 'US';
 
 export const countryCallingCodeMap: Record<string, CountryCode> = {
   zh: 'CN',
-  en: 'US',
+  en: 'IN',
 };
 
 export const isValidCountryCode = (countryCode: string): countryCode is CountryCode => {
