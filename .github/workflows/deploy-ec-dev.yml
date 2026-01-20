@@ -11,8 +11,7 @@ on:
 # REMEMBER: Update this in both the `build` job and the `deploy` job.
 jobs:
   build:
-    runs-on: self-hosted
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     env:
       IMAGE_NAME_LOGTO: ${{ vars.DH_USERNAME_LOGTO }}/${{ vars.CONTAINER_NAME_LOGTO }}
