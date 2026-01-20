@@ -37,15 +37,11 @@ jobs:
       - name: Build and push Docker image
         # run: docker buildx build --platform linux/amd64,linux/arm64  --cache-from type=local,src=/opt/actions-cache/docker-prod --cache-to type=local,dest=/opt/actions-cache/docker-prod,mode=max -t ${{ env.IMAGE_NAME_LOGTO }}:prod --build-arg NODE_ENV=prod --push .
         # it is running on arm64 ,if you want to use both amd and arm  then uncomment above and comment below
-        run: docker buildx build --platform linux/arm64  --cache-from type=local,src=/opt/actions-cache/docker-prod --cache-to type=local,dest=/opt/actions-cache/docker-prod,mode=max -t ${{ env.IMAGE_NAME_LOGTO }}:prod --build-arg NODE_ENV=prod --push .
+        run: docker buildx build --platform linux/arm64 -t ${{ env.IMAGE_NAME_LOGTO }}:prod --build-arg NODE_ENV=prod --push .
 
-      - name: Cleanup old cache (older than 7 days)
-        run: |
-          find /opt/actions-cache/docker-prod -type f -mtime +7 -delete || true
-          echo "Old cache layers cleaned up (older than 7 days)"
 
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: build
 
     steps:
@@ -84,7 +80,7 @@ jobs:
               -e DB_URL="${{ secrets.LOGTO_DB_URL }}" \
               -e ENDPOINT="${{ vars.LOGTO_ENDPOINT }}" \
               -e ADMIN_ENDPOINT="${{ vars.LOGTO_ADMIN_ENDPOINT }}" \
-              $IMAGE_NAME
+              $IMAGE_NAME_LOGTO:prod
 
 
             # Clean up
