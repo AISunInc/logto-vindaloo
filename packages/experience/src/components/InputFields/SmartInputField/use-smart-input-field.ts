@@ -2,7 +2,6 @@ import { SignInIdentifier } from '@logto/schemas';
 import { useState, useCallback, useMemo } from 'react';
 import type { ChangeEventHandler } from 'react';
 
-import { getDefaultCountryCallingCode } from '@/utils/country-code';
 import { parseIdentifierValue } from '@/utils/form';
 
 import { detectIdentifierType } from './utils';
@@ -47,7 +46,8 @@ const useSmartInputField = ({ defaultValue, enabledTypes }: Props) => {
   const [currentType, setCurrentType] = useState(defaultType);
 
   const [countryCode, setCountryCode] = useState<string>(
-    defaultCountryCode ?? getDefaultCountryCallingCode()
+    // Locked to India (+91) — not locale-based
+    defaultCountryCode ?? '91'
   );
 
   const [inputValue, setInputValue] = useState<string>(defaultInputValue ?? '');
